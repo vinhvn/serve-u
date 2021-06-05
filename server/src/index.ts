@@ -5,9 +5,9 @@
  */
 import express from 'express';
 import path from 'path';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import multer from 'multer';
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 /**
  * general setup and configuration
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   filename: (_, file, cb) => {
     cb(null, uuid() + path.extname(file.originalname));
   },
-})
+});
 const upload = multer({ storage });
 
 /**
@@ -35,8 +35,11 @@ app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'static')));
 // allow CORS in our app
 app.use((_, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 
@@ -47,8 +50,10 @@ app.get('/', (_, res) => {
   res.redirect(APP_URL);
 });
 app.post('/upload', authenticate, upload.single('file'), (req, res) => {
-  console.log(`[SERVER]: successfully uploaded file @ ${API_URL}/${req.file.filename}`)
-  res.status(201).send(`${APP_URL}/${req.file.filename}`);
+  console.log(
+    `[SERVER]: successfully uploaded file @ ${API_URL}/${req.file.filename}`
+  );
+  res.status(201).send(`${API_URL}/${req.file.filename}`);
 });
 // catch all other requests as 404s and redirect them to the app
 app.all('*', (req, res) => {
@@ -57,13 +62,21 @@ app.all('*', (req, res) => {
 
 // start the express server
 app.listen(PORT, () => {
-  console.log(`[SERVER]: started at ${NODE_ENV === 'development' ? `http://localhost:${PORT}` : API_URL}`);
+  console.log(
+    `[SERVER]: started at ${
+      NODE_ENV === 'development' ? `http://localhost:${PORT}` : API_URL
+    }`
+  );
 });
 
 /**
  * the authenticate function is an express middleware used to check for a matching API key
  */
- function authenticate(req: express.Request, res: express.Response, next: express.NextFunction) {
+function authenticate(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   // if api key is incorrect, redirect
   if (req.header('Api-Key') !== API_KEY) {
     res.sendStatus(401);
