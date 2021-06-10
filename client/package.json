@@ -1,56 +1,68 @@
 {
-  "name": "serve-client",
-  "version": "1.0.0",
-  "author": "Vincent Nguyen @vinhvn",
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "dev": "gatsby develop",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-helmet": "6.1.0"
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^13.1.9",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.2",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.7",
+    "@types/react-router-dom": "^5.1.7",
+    "autoprefixer": "10.x",
+    "cross-env": "7.x",
+    "delay-cli": "^1.1.0",
+    "npm-run-all": "4.x",
+    "postcss": "8.x",
+    "postcss-cli": "8.x",
+    "postcss-preset-env": "6.x",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "tailwindcss": "2.x",
+    "typescript": "4.x"
+  },
+  "scripts": {
+    "start": "run-p watch:css react-scripts:start",
+    "build": "run-s build:css react-scripts:build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:css": "cross-env TAILWIND_MODE=build NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/index.css",
+    "watch:css": "cross-env TAILWIND_MODE=watch NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/index.css --watch",
+    "react-scripts:start": "delay 5 && react-scripts start",
+    "react-scripts:build": "react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@types/react": "17.0.7",
-    "@types/react-dom": "17.0.5",
-    "@types/react-helmet": "6.1.1",
-    "@typescript-eslint/eslint-plugin": "4.25.0",
-    "@typescript-eslint/parser": "4.25.0",
-    "autoprefixer": "10.2.5",
-    "babel-eslint": "10.1.0",
-    "cssnano": "5.0.4",
-    "eslint": "7.27.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.28.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-react-app": "6.0.0",
-    "eslint-loader": "4.0.2",
-    "eslint-plugin-flowtype": "5.7.2",
-    "eslint-plugin-import": "2.23.3",
-    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "gatsby": "3.6.0",
-    "gatsby-image": "3.6.0",
-    "gatsby-plugin-eslint": "3.0.0",
-    "gatsby-plugin-manifest": "3.6.0",
-    "gatsby-plugin-offline": "4.6.0",
-    "gatsby-plugin-postcss": "4.6.0",
-    "gatsby-plugin-purgecss": "6.0.2",
-    "gatsby-plugin-react-helmet": "4.6.0",
-    "gatsby-plugin-sharp": "3.6.0",
-    "gatsby-plugin-typescript": "3.6.0",
-    "gatsby-source-filesystem": "3.6.0",
-    "gatsby-transformer-sharp": "3.6.0",
-    "lint-staged": "11.0.0",
-    "postcss": "^8.3.0",
-    "prettier": "2.3.0",
-    "tailwindcss": "^2.1.2",
-    "typescript": "4.2.4"
+    "prettier": "^2.3.1"
   }
 }
