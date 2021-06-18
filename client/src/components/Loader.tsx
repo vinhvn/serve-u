@@ -13,15 +13,18 @@ function Loader({ loaded }: Props): ReactElement {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setHidden(true);
-    }, 2000);
+    const timer = setTimeout(
+      () => {
+        setHidden(true);
+      },
+      loaded ? 500 : 2000
+    );
     return () => clearTimeout(timer);
   }, [loaded]);
 
   return (
     <div
-      className={`absolute inset-0 w-screen h-screen  bg-white ease-in duration-500 transition-opacity ${
+      className={`absolute inset-0 w-screen h-screen  bg-white ease-in duration-300 transition-opacity ${
         loaded ? 'opacity-0' : 'opacity-100'
       } ${hidden ? 'hidden' : ''}`}
     >

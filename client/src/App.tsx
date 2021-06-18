@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
-
 import { isLoggedIn } from './services/auth';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
-import Login from './components/Login';
+import Login from './pages/Login';
+import Upload from './pages/Upload';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -21,7 +21,26 @@ function App() {
     return setLoaded(true);
   }, []);
 
-  console.log(isLoggedIn());
+  const PublicOnlyRoute = ({
+    component: Component,
+    ...rest
+  }: Record<string, any>) => (
+    <Route
+      {...rest}
+      render={(props) =>
+        !isLoggedIn() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
 
   const PrivateRoute = ({
     component: Component,
@@ -48,9 +67,9 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route path="/login" component={Login} />
+        <PublicOnlyRoute path="/login" component={Login} />
         <PrivateRoute exact path="/" component={() => <div>Testing</div>} />
-        <PrivateRoute path="/upload" component={Login} />
+        <PrivateRoute path="/upload" component={Upload} />
       </Switch>
       <Loader loaded={loaded} />
     </BrowserRouter>

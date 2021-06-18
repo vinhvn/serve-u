@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import multer from 'multer';
 import randimals from 'randimals/dist';
 import fs from 'fs';
+import cors from 'cors';
 
 /**
  * general setup and configuration
@@ -58,16 +59,10 @@ const upload = multer({ storage });
 /**
  * express middleware
  */
+
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'data')));
-app.use((_, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
+app.use(cors());
 
 /**
  * the authenticate function is an express middleware used to check for a matching API key
@@ -104,18 +99,29 @@ app.post('/upload', authenticate, upload.single('file'), (req, res) => {
 
 app.post('/login', (req, res) => {
   const { password } = req.body;
+  // no password given
   if (!password) {
     res.sendStatus(401);
+    return;
   }
 
+  const pkg = {
+    apiKey: API_KEY,
+    username: '',
+  };
+
   if (password === ADMIN_PASSWORD) {
-    res.status(200).send('admin');
+    pkg.username = 'admin';
   } else if (password === DEMO_PASSWORD) {
-    res.status(200).send('demo');
+    pkg.username = 'demo';
   } else {
+    // incorrect password
     res.sendStatus(401);
+    return;
   }
+  res.status(200).send(JSON.stringify(pkg));
 });
+
 // catch all other requests as 404s and redirect them to the app
 app.all('*', (req, res) => {
   res.redirect(`${APP_URL}${req.url}`);

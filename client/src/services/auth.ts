@@ -9,7 +9,7 @@ export const getUsername = () => {
 };
 
 export const handleLogin = async (password: string) => {
-  const res = await fetch(`${process.env.API_URL}/login`, {
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -20,8 +20,9 @@ export const handleLogin = async (password: string) => {
   if (res.status === 401) {
     throw new Error(`Bad login`);
   } else {
-    const json = await res.json();
-    window.sessionStorage.setItem('username', json);
+    const { apiKey, username } = await res.json();
+    window.sessionStorage.setItem('apiKey', apiKey);
+    window.sessionStorage.setItem('username', username);
   }
 };
 
@@ -31,5 +32,6 @@ export const isLoggedIn = () => {
 };
 
 export const handleLogout = () => {
+  window.sessionStorage.setItem('apiKey', '');
   window.sessionStorage.setItem('username', '');
 };
