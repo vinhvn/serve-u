@@ -28,6 +28,7 @@ function Upload() {
       }
       if (f.size > 1024 * 1024 * MAX_FILE_SIZE_MB) {
         setError('The uploaded file is too large.');
+        setFilename('');
         return;
       }
       setFilename(f.name);
