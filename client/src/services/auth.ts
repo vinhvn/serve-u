@@ -1,6 +1,6 @@
 export const getUsername = () => {
   if (window) {
-    const username = window.sessionStorage.getItem('username');
+    const username = window.localStorage.getItem('username');
     if (typeof username === 'string') {
       return username;
     }
@@ -10,7 +10,7 @@ export const getUsername = () => {
 
 export const getApiKey = () => {
   if (window) {
-    const apiKey = window.sessionStorage.getItem('apiKey');
+    const apiKey = window.localStorage.getItem('apiKey');
     if (typeof apiKey === 'string') {
       return apiKey;
     }
@@ -31,8 +31,8 @@ export const handleLogin = async (password: string) => {
     throw new Error(`Bad login`);
   } else {
     const { apiKey, username } = await res.json();
-    window.sessionStorage.setItem('apiKey', apiKey);
-    window.sessionStorage.setItem('username', username);
+    window.localStorage.setItem('apiKey', apiKey);
+    window.localStorage.setItem('username', username);
   }
 };
 
@@ -43,6 +43,6 @@ export const isLoggedIn = () => {
 };
 
 export const handleLogout = () => {
-  window.sessionStorage.setItem('apiKey', '');
-  window.sessionStorage.setItem('username', '');
+  window.localStorage.setItem('apiKey', '');
+  window.localStorage.setItem('username', '');
 };
