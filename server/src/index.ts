@@ -44,9 +44,7 @@ const API_KEY = process.env.API_KEY;
 const API_URL = process.env.API_URL;
 const APP_URL = process.env.APP_URL;
 // database setup to keep track of links
-const adapter = new FileSync<DatabaseData>(
-  path.join(__dirname, 'data', 'db.json')
-);
+const adapter = new FileSync<DatabaseData>(path.join(__dirname, 'db.json'));
 const db = low(adapter);
 db.defaults({ files: [] }).write();
 
@@ -87,7 +85,11 @@ const upload = multer({ storage });
  */
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'data')));
-app.use(cors());
+app.use(
+  cors({
+    origin: APP_URL,
+  })
+);
 
 /**
  * the authenticate function is an express middleware used to check for a matching API key
@@ -113,6 +115,8 @@ function authenticate(
 /**
  * routes and handlers
  */
+app.options('*', cors());
+
 app.get('/', (_, res) => {
   res.redirect(APP_URL);
 });
@@ -174,6 +178,12 @@ app.post('/upload', authenticate, upload.single('file'), async (req, res) => {
       mimetype,
     })
     .write();
+  // if demo file, remove after an hour
+  if (username === 'demo') {
+    setTimeout(() => {
+      db.get('files').remove({ id }).write();
+    }, 1000 * 60 * 60);
+  }
   res.status(201).send(id);
 });
 
