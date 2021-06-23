@@ -17,9 +17,7 @@ function Navbar() {
             <div className="flex ml-2 sm:ml-4 items-center">
               <h1 className="text-2xl sm:text-3xl font-extrabold tracking-wide text-black">
                 Serve
-                <span className="text-red-600 group-hover:text-gray-600">
-                  U
-                </span>
+                <span className="text-red-600 group-hover:text-red-700">U</span>
               </h1>
             </div>
           </Link>
@@ -34,7 +32,7 @@ function Navbar() {
                 </Link>
                 <Link
                   to="/upload"
-                  className="text-white bg-red-600 hover:bg-gray-600 hover:text-white px-5 py-3 text-xs font-semibold tracking-widest rounded-br-lg shadow"
+                  className="text-white bg-red-600 hover:bg-red-700 hover:text-white px-5 py-3 text-xs font-semibold tracking-widest rounded-br-lg"
                 >
                   UPLOAD
                 </Link>
@@ -42,7 +40,7 @@ function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="text-white bg-red-600 hover:bg-gray-600 hover:text-white px-5 py-3 text-xs font-semibold tracking-widest rounded-br-lg shadow"
+                className="text-white bg-red-600 hover:bg-red-700 hover:text-white px-5 py-3 text-xs font-semibold tracking-widest rounded-br-lg"
               >
                 LOGIN
               </Link>

@@ -8,6 +8,16 @@ export const getUsername = () => {
   return '';
 };
 
+export const getApiKey = () => {
+  if (window) {
+    const apiKey = window.sessionStorage.getItem('apiKey');
+    if (typeof apiKey === 'string') {
+      return apiKey;
+    }
+  }
+  return '';
+};
+
 export const handleLogin = async (password: string) => {
   const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
     method: 'POST',
@@ -28,7 +38,8 @@ export const handleLogin = async (password: string) => {
 
 export const isLoggedIn = () => {
   const username = getUsername();
-  return !!username;
+  const apiKey = getApiKey();
+  return !!username && !!apiKey;
 };
 
 export const handleLogout = () => {

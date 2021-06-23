@@ -1,4 +1,8 @@
-// index.ts
+/**
+ * ServeU Server
+ * index.ts
+ * Written by Vincent Nguyen
+ */
 
 /**
  * imports
@@ -10,6 +14,22 @@ import multer from 'multer';
 import randimals from 'randimals/dist';
 import fs from 'fs';
 import cors from 'cors';
+import low from 'lowdb';
+import FileSync from 'lowdb/adapters/FileSync';
+
+/**
+ * custom types
+ */
+type DatabaseFile = {
+  id: string;
+  filename: string;
+  username: string;
+  type: string;
+  mimetype: string;
+};
+type DatabaseData = {
+  files: DatabaseFile[];
+};
 
 /**
  * general setup and configuration
@@ -23,6 +43,12 @@ const DEMO_PASSWORD = process.env.DEMO_PASSWORD;
 const API_KEY = process.env.API_KEY;
 const API_URL = process.env.API_URL;
 const APP_URL = process.env.APP_URL;
+// database setup to keep track of links
+const adapter = new FileSync<DatabaseData>(
+  path.join(__dirname, 'data', 'db.json')
+);
+const db = low(adapter);
+db.defaults({ files: [] }).write();
 
 // get our local storage up and running
 const storage = multer.diskStorage({
@@ -59,7 +85,6 @@ const upload = multer({ storage });
 /**
  * express middleware
  */
-
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'data')));
 app.use(cors());
@@ -75,8 +100,10 @@ function authenticate(
   res: express.Response,
   next: express.NextFunction
 ) {
-  // if api key is incorrect, redirect
+  // if api key is incorrect or no username is provided, redirect
   if (req.header('Api-Key') !== API_KEY) {
+    res.sendStatus(401);
+  } else if (!req.header('Username')) {
     res.sendStatus(401);
   } else {
     next();
@@ -90,11 +117,64 @@ app.get('/', (_, res) => {
   res.redirect(APP_URL);
 });
 
-app.post('/upload', authenticate, upload.single('file'), (req, res) => {
-  console.log(
-    `[SERVER]: successfully uploaded file @ ${API_URL}/${req.file.filename}`
-  );
-  res.status(201).send(`${API_URL}/${req.file.filename}`);
+// resource not found
+app.get('/404', (_, res) => {
+  res.sendStatus(404);
+});
+
+// route for app to get resource
+app.get('/asset/:id', (req, res) => {
+  const search = db.get('files').find({ id: req.params.id }).value();
+  if (!search) {
+    res.redirect('/404');
+    return;
+  }
+  const { filename, username, type } = search;
+  const url = `${API_URL}${
+    username === ADMIN_USERNAME ? '' : `/${username}`
+  }/${filename}`;
+  const pkg = {
+    url,
+    type,
+  };
+  res.status(200).send(pkg);
+});
+
+// route for app to get files under a certain user
+app.get('/list/:user', (req, res) => {
+  const username = req.header('Username');
+  const search = db.get('files').filter({ username }).value();
+  if (!search) {
+    res.redirect('/404');
+    return;
+  }
+  const pkg = {
+    files: search.map((entry) => ({ id: entry.id, type: entry.type })),
+  };
+  res.status(200).send(pkg);
+});
+
+// redirect to app to display asset
+app.get('/:id', (req, res) => {
+  res.redirect(`${APP_URL}/${req.params.id}`);
+});
+
+app.post('/upload', authenticate, upload.single('file'), async (req, res) => {
+  const username = req.header('Username');
+  const { filename, mimetype } = req.file;
+  console.log(`[SERVER]: successfully uploaded file @ ${API_URL}/${filename}`);
+  // update database
+  const id = filename.slice(0, filename.indexOf('.'));
+  db.get('files')
+    .push({
+      id,
+      filename,
+      username,
+      type: mimetype.slice(0, mimetype.indexOf('/')),
+      mimetype,
+    })
+    .write();
+  res.status(201).send(id);
 });
 
 app.post('/login', (req, res) => {

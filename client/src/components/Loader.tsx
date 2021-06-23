@@ -30,7 +30,7 @@ function Loader({ loaded }: Props): ReactElement {
     >
       <div className="flex h-full justify-center items-center">
         <svg
-          className={`animate-spin h-8 w-8 text-black ease-in duration-200 transition-opacity
+          className={`animate-spin h-8 w-8 text-red-600 ease-in duration-200 transition-opacity
             ${loading ? ' opacity-100' : ' opacity-0'}`}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

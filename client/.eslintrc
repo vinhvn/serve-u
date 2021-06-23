@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:import/typescript"],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:import/typescript", "react-app"],
   "env": {
     "browser": true,
     "commonjs": true,
@@ -7,7 +7,6 @@
     "jest": true,
     "node": true
   },
-  "parser": "babel-eslint",
   "rules": {
     "import/extensions": [
       "error",

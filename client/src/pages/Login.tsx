@@ -11,6 +11,7 @@ function Login() {
 
   const handleLogin = async () => {
     if (!password) {
+      setError('No password was entered.');
       setClicked(true);
       return;
     }
@@ -20,6 +21,7 @@ function Login() {
       await authenticate(password);
     } catch (e) {
       setError('No repository with a matching password was found.');
+      setLoading(false);
       return;
     }
     // successful login
@@ -50,7 +52,7 @@ function Login() {
           </p>
         </div>
       ) : null}
-      <h2 className="font-bold pb-2">Log in to your repository</h2>
+      <h2 className="text-xl font-bold pb-2">Log in to your repository</h2>
       <hr />
       <div className="py-4">
         <h3 className="text-sm font-bold pb-2">
@@ -96,11 +98,11 @@ function Login() {
       <button
         type="button"
         onClick={handleLogin}
-        className="w-full bg-red-600 hover:bg-gray-600 text-white text-sm font-semibold py-3 rounded-br-lg focus:outline-none"
+        className="flex justify-center items-center w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-3 rounded-br-lg focus:outline-none"
       >
         {loading ? (
           <svg
-            className="animate-spin h-8 w-8 text-white"
+            className="animate-spin h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -120,7 +122,7 @@ function Login() {
             />
           </svg>
         ) : (
-          'Log In'
+          <span>Log In</span>
         )}
       </button>
       <div className="flex flex-row items-center justify-between py-4">
@@ -132,7 +134,7 @@ function Login() {
         Please contact your{' '}
         <a
           href="mailto:vinhhnguyen@cmail.carleton.ca"
-          className="text-red-600 hover:text-gray-600"
+          className="text-red-600 hover:text-red-700"
         >
           administrator
         </a>
