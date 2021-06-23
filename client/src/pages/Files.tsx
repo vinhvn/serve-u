@@ -68,7 +68,7 @@ function Files() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
+    <div className="max-w-4xl mx-auto px-4 pb-16">
       <h2 className="text-3xl font-semibold pb-4 mt-16 sm:mt-32">Files</h2>
       {renderCards()}
     </div>

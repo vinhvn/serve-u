@@ -3,6 +3,7 @@ import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import { isLoggedIn } from './services/auth';
 import Navbar from './components/Navbar';
 import Loader from './components/Loader';
+import Footer from './components/Footer';
 import Login from './pages/Login';
 import File from './pages/File';
 import Files from './pages/Files';
@@ -76,6 +77,7 @@ function App() {
         <PrivateRoute path="/upload" component={Upload} />
         <PrivateRoute path="/:id" component={File} />
       </Switch>
+      <Footer />
       <Loader loaded={loaded} />
     </BrowserRouter>
   );
