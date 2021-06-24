@@ -1,22 +1,39 @@
-# cra-template-tailwindcss-typescript
+# 🍽️ ServeU Client
 
-A streamlined [Tailwind CSS](https://tailwindcss.com) template for [Create React App](https://github.com/facebook/create-react-app) in [TypeScript](https://www.typescriptlang.org/).
+The client-side app of **ServeU**.
 
-> This template installs and sets up [Tailwind CSS](https://tailwindcss.com) with TypeScript support.
+## Getting started
 
-## Usage
-
-```bash
-npx create-react-app --template tailwindcss-typescript
+```sh
+yarn install
 ```
+
+## Start with hot reloading
+
+```sh
+yarn dev
+# or
+yarn start
+```
+
+## Building for production
+
+```sh
+yarn build
+```
+
+## Running tests
+
+Tests are TBD.
+
+```sh
+yarn test
+```
+
+## Resources
+
+I used my personal ESLint, Prettier, and TypeScript config available [here](https://github.com/vinhvn/airbnb-prettier-typescript-config).
 
 ## Credits
 
-This project was made possible thanks to the following projects.
-
-1. [GeoffSelby/cra-template-tailwindcss](https://github.com/GeoffSelby/cra-template-tailwindcss) - A streamlined Tailwind CSS template for Create React App (in JavaScript).
-2. [cra-template-typescript](https://github.com/facebook/create-react-app/tree/master/packages/cra-template-typescript) - An official TypeScript template for create-react-app.
-
-## License
-
-MIT © [Sung M. Kim](https://sung.codes)
+Bootstrapped with the amazing [CRA TailwindCSS and TypeScript template](https://github.com/dance2die/cra-template-tailwindcss-typescript).
