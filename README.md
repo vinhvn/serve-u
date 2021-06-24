@@ -45,7 +45,7 @@ yarn install
 yarn dev
 ```
 
-For additional commands and information, please refer to the client [README](client/README.md).
+For additional commands and information, please refer to the client [README](client).
 
 ### 🌐 Server
 
@@ -70,6 +70,8 @@ Afterwards, install [yarn](https://yarnpkg.com) and run the following two comman
 yarn install
 yarn dev
 ```
+
+For additional commands and information, please refer to the server [README](server).
 
 ## License
 

@@ -8,19 +8,19 @@ The server-side app of **ServeU**.
 yarn install
 ```
 
-## Start with hot reloading
+### Start with hot reloading
 
 ```sh
 yarn dev
 ```
 
-## Start without reloads
+### Start without reloads
 
 ```sh
 yarn start
 ```
 
-## Running tests
+### Running tests
 
 Tests are TBD.
 
