@@ -26,7 +26,7 @@ function Upload() {
         setError('No file was uploaded.');
         return;
       }
-      if (f.size > 1024 * 1024 * MAX_FILE_SIZE_MB) {
+      if (getUsername() === 'demo' && f.size > 1024 * 1024 * MAX_FILE_SIZE_MB) {
         setError('The uploaded file is too large.');
         setFilename('');
         return;
